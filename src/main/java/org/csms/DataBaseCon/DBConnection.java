@@ -1,6 +1,5 @@
 package org.csms.DataBaseCon;
 
-import com.mongodb.MongoClientURI;
 import com.mongodb.client.*;
 import org.bson.Document;
 
@@ -11,19 +10,30 @@ public class DBConnection {
     private MongoCollection<Document> usersCollection;
 
     public DBConnection() {
-        String uri = "mongodb://localhost:27017";
-        String dbName = "CSMS";
+        try {
+            String uri = "mongodb://localhost:27017";
+            String dbName = "CSMS";
 
-        mongoClient = MongoClients.create(uri);
-        database = mongoClient.getDatabase(dbName);
-        usersCollection = database.getCollection("userLogin");
+
+            mongoClient = MongoClients.create(uri);
+            database = mongoClient.getDatabase(dbName);
+            usersCollection = database.getCollection("userLogin");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to connect to MongoDB");
+        }
     }
-
     public boolean verifyLogin(String username, String password) {
-        Document query = new Document("username", username).append("password", password);
-        Document user = usersCollection.find(query).first();
+        try {
+            Document query = new Document("username", username).append("password", password);
+            Document user = usersCollection.find(query).first();
 
-        return user != null;
+            return user != null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public void closeConnection() {

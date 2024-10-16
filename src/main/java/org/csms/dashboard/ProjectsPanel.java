@@ -13,7 +13,6 @@ public class ProjectsPanel {
         ProjectsContainer.setBorder(BorderFactory.createEmptyBorder());
         ProjectsContainer.getViewport().setBackground(PreColors.BACKGROUND_GREY);
 
-
         return ProjectsContainer;
     }
 }
