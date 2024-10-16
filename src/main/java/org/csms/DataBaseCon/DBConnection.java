@@ -5,9 +5,8 @@ import org.bson.Document;
 
 public class DBConnection {
 
-    private MongoClient mongoClient;
-    private MongoDatabase database;
-    private MongoCollection<Document> usersCollection;
+    private final MongoClient mongoClient;
+    private final MongoCollection<Document> usersCollection;
 
     public DBConnection() {
         try {
@@ -16,7 +15,7 @@ public class DBConnection {
 
 
             mongoClient = MongoClients.create(uri);
-            database = mongoClient.getDatabase(dbName);
+            MongoDatabase database = mongoClient.getDatabase(dbName);
             usersCollection = database.getCollection("userLogin");
 
         } catch (Exception e) {
